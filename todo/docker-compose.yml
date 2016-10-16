@@ -1,0 +1,23 @@
+version: '2'
+services:
+  db:
+    image: mongo:3.0.2
+    restart: always
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-three
+    depends_on:
+      - db
+    links:
+      - db:docker-mongo-db
+    image: workshoptreefour
+    volumes: 
+      - "/home/docker_u/workshop3/docker-workshop-todo/:/app"
+    working_dir: /app
+    restart: always
+    expose:
+      - "5000"
+    ports:
+    - "8080:5000"
+    command: python -u app.py
